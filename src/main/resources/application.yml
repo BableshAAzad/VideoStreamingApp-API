@@ -1,0 +1,34 @@
+spring:
+  application:
+    name: VideoStreamingApp-API
+
+    #  DataSource configuration
+  datasource:
+    url: jdbc:mysql://${DB_HOST_NAME:localhost}:${DB_PORT:3306}/${DB_NAME:video_streaming_app}?createDatabaseIfNotExist=true
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:root}
+    river-class-name: com.mysql.cj.jdbc.Driver
+
+  #  JPA Configuration
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+#        dialect: org.hibernate.dialect.MySQLDialect
+
+
+# Maximum file size allowed for a single file upload
+  servlet:
+    multipart:
+      max-file-size: 1000MB
+
+  # Maximum request size allowed for multipart/form-data requests
+      max-request-size: 1000MB
+
+
+
+files:
+  video: videos/
