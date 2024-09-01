@@ -4,6 +4,7 @@ import com.videostreaming.app.utility.ResponseStructure;
 import com.videostreaming.app.video.dto.VideoRequest;
 import com.videostreaming.app.video.dto.VideoResponse;
 import com.videostreaming.app.video.service.VideoService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,9 +19,8 @@ public class VideoController {
 
     @PostMapping("/videos")
     private ResponseEntity<ResponseStructure<VideoResponse>> addVideo(
-            @ModelAttribute VideoRequest videoRequest,
-            @RequestParam MultipartFile file){
-        return videoService.addVideo(videoRequest, file);
+           @Valid @ModelAttribute VideoRequest videoRequest){
+        return videoService.addVideo(videoRequest);
     }
 
 }

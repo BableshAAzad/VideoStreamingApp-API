@@ -58,11 +58,11 @@ public class VideoServiceImpl implements VideoService {
 
     @Override
     public ResponseEntity<ResponseStructure<VideoResponse>> addVideo(
-            VideoRequest videoRequest,
-            MultipartFile file) {
+            VideoRequest videoRequest) {
         Video video = videoMapper.mapVideoRequestToVideo(videoRequest, new Video());
         
         try {
+            MultipartFile file = videoRequest.getFile();
             String fileName  =  file.getOriginalFilename();
             String contentType = file.getContentType();
             InputStream inputStream = file.getInputStream();

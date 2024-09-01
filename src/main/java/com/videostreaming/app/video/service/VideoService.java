@@ -9,6 +9,5 @@ import org.springframework.web.multipart.MultipartFile;
 public interface VideoService {
 
     ResponseEntity<ResponseStructure<VideoResponse>> addVideo(
-            VideoRequest videoRequest,
-            MultipartFile file);
+            VideoRequest videoRequest);
 }
