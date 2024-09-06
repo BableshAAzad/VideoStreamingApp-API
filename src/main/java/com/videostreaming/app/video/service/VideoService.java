@@ -24,4 +24,11 @@ public interface VideoService {
     ResponseEntity<Resource> serverMasterFile(String videoId);
 
     ResponseEntity<Resource> serveSegment(String videoId, String segment);
+
+    ResponseEntity<ResponseStructure<PagedModel<VideoResponse>>> searchVideos(
+            String decodedCriteria, int page, int size);
+
+    ResponseEntity<ResponseStructure<PagedModel<VideoResponse>>> filterVideos(String query, int page, int size);
+
+    ResponseEntity<ResponseStructure<VideoResponse>> getVideoById(String videoId);
 }
