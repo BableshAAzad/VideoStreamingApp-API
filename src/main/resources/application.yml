@@ -32,3 +32,4 @@ spring:
 
 files:
   video: videos/
+  video_hls: videos_hls/
