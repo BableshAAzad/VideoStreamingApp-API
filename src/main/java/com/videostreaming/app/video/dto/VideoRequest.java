@@ -1,5 +1,6 @@
 package com.videostreaming.app.video.dto;
 
+import com.videostreaming.app.enums.VideoCategory;
 import com.videostreaming.app.validation.ValidVideoFile;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -18,6 +19,9 @@ public class VideoRequest {
     @NotBlank(message = "Video description can not be blank")
     @NotNull(message = "Video description can not be null")
     private  String description;
+
+    @NotNull(message = "category description can not be null")
+    private VideoCategory category;
 
     @ValidVideoFile
     private MultipartFile file;

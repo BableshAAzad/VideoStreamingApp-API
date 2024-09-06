@@ -1,9 +1,8 @@
 package com.videostreaming.app.video.entity;
 
 import com.videostreaming.app.course.entity.Course;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import com.videostreaming.app.enums.VideoCategory;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
@@ -19,6 +18,9 @@ public class Video {
     private  String title;
 
     private  String description;
+
+    @Enumerated(EnumType.STRING)
+    private VideoCategory category;
 
     private  String  contentType;
 
