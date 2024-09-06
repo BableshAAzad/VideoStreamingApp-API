@@ -4,12 +4,13 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
-### Videos ###
+### Ignore Videos ###
 videos/
 videos_hls/
-.ts
-.avi
-.mp4
+*.ts
+*.avi
+*.mp4
+*.m3u8
 
 ### STS ###
 .apt_generated
