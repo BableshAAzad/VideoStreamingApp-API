@@ -4,6 +4,13 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
+### Videos ###
+videos/
+videos_hls/
+.ts
+.avi
+.mp4
+
 ### STS ###
 .apt_generated
 .classpath
