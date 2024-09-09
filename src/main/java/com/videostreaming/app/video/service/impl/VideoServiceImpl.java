@@ -1,6 +1,7 @@
 package com.videostreaming.app.video.service.impl;
 
 import com.videostreaming.app.enums.AppConstants;
+import com.videostreaming.app.enums.VideoCategory;
 import com.videostreaming.app.exception.VideoNotFoundException;
 import com.videostreaming.app.utility.ResponseStructure;
 import com.videostreaming.app.video.dto.VideoRequest;
@@ -9,6 +10,7 @@ import com.videostreaming.app.video.entity.Video;
 import com.videostreaming.app.video.mapper.VideoMapper;
 import com.videostreaming.app.video.repository.VideoRepository;
 import com.videostreaming.app.video.service.VideoService;
+import com.videostreaming.app.video.specification.VideoSpecification;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
@@ -17,6 +19,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -238,43 +241,6 @@ public class VideoServiceImpl implements VideoService {
     }
 //    ---------------------------------------------------------------------------------------------
 
-//    @Override
-//    public String processVideo(String videoId) {
-//        Video video = videoRepository.findById(videoId)
-//                .orElseThrow(()->new VideoNotFoundException("video Id : "+videoId+", is not exist"));
-//
-//        String filePath = video.getFilePath();
-//
-//        //path where to store data:
-//        Path videoPath = Paths.get(filePath);
-//        try {
-//            // ffmpeg command
-//            Path outputPath = Paths.get(HLS_DIR, videoId);
-//
-//            Files.createDirectories(outputPath);
-//
-//            String ffmpegCmd = String.format(
-//                    "ffmpeg -i \"%s\" -c:v libx264 -c:a aac -strict -2 -f hls -hls_time 10 -hls_list_size 0 -hls_segment_filename \"%s/segment_%%3d.ts\"  \"%s/master.m3u8\" ",
-//                    videoPath, outputPath, outputPath
-//            );
-//
-//            System.out.println(ffmpegCmd);
-//            //file this command
-//            ProcessBuilder processBuilder = new ProcessBuilder("/bin/bash", "-c", ffmpegCmd);
-//            processBuilder.inheritIO();
-//            Process process = processBuilder.start();
-//            int exit = process.waitFor();
-//            if (exit != 0) {
-//                throw new RuntimeException("video processing failed!!");
-//            }
-//            return videoId;
-//        } catch (IOException ex) {
-//            throw new RuntimeException("Video processing fail!!");
-//        } catch (InterruptedException e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
-
     @Override
     public void processVideo(Video video) {
 
@@ -355,6 +321,39 @@ public class VideoServiceImpl implements VideoService {
                 .status(HttpStatus.OK)
                 .header(HttpHeaders.CONTENT_TYPE, "video/mp2t")
                 .body(resource);
+    }
+//    ---------------------------------------------------------------------------------------------
+
+    @Override
+    public ResponseEntity<ResponseStructure<PagedModel<VideoResponse>>> searchVideos(
+            String decodedCriteria, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Specification<Video> specification = VideoSpecification.hasSearchCriteria(decodedCriteria);
+        Page<Video> pageVideo = videoRepository.findAll(specification, pageable);
+        Page<VideoResponse> responseVideo = pageVideo.map(videoMapper::mapVideoToVideoResponse);
+        return buildResponse(responseVideo, "Videos are founded");
+    }
+//    ---------------------------------------------------------------------------------------------
+
+    @Override
+    public ResponseEntity<ResponseStructure<PagedModel<VideoResponse>>> filterVideos(
+            String query, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        VideoCategory category = VideoCategory.valueOf(query.toUpperCase());
+        Page<Video> pageVideo = videoRepository.findByCategory(category, pageable);
+        Page<VideoResponse> responseVideo = pageVideo.map(videoMapper::mapVideoToVideoResponse);
+        return buildResponse(responseVideo, "Videos are founded");
+    }
+//    ---------------------------------------------------------------------------------------------
+
+    @Override
+    public ResponseEntity<ResponseStructure<VideoResponse>> getVideoById(String videoId) {
+        Video video = videoRepository.findById(videoId)
+                .orElseThrow(() -> new VideoNotFoundException("Video Id : " + videoId + ", is not exist"));
+        return ResponseEntity.status(HttpStatus.OK).body(new ResponseStructure<VideoResponse>()
+                .setStatus(HttpStatus.OK.value())
+                .setMessage("Video Founded")
+                .setData(videoMapper.mapVideoToVideoResponse(video)));
     }
 
 

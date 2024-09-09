@@ -37,6 +37,12 @@ public class VideoController {
            @RequestParam(defaultValue = "10") int size){
         return videoService.getVideos(page, size);
    }
+//    ---------------------------------------------------------------------------------------------
+    @GetMapping("/videos/{videoId}")
+    public ResponseEntity<ResponseStructure<VideoResponse>> getVideoById(
+            @PathVariable String videoId){
+        return videoService.getVideoById(videoId);
+    }
 
 //    ---------------------------------------------------------------------------------------------
     @GetMapping("/videos/{videoId}/stream/range")
@@ -61,4 +67,28 @@ public class VideoController {
             @PathVariable String segment) {
         return videoService.serveSegment(videoId, segment);
     }
+//    ---------------------------------------------------------------------------------------------
+    @GetMapping("/videos/search/{criteria}")
+    public ResponseEntity<ResponseStructure<PagedModel<VideoResponse>>> searchVideos(
+            @PathVariable String criteria,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size){
+        try {
+            String decodedCriteria = java.net.URLDecoder.decode(criteria, "UTF-8");
+            return videoService.searchVideos(decodedCriteria, page, size);
+        }catch (Exception e){
+            throw new RuntimeException("Invalid search criteria format", e);
+        }
+    }
+//    ---------------------------------------------------------------------------------------------
+@GetMapping("/videos/filter/{query}")
+public ResponseEntity<ResponseStructure<PagedModel<VideoResponse>>> filterVideos(
+        @PathVariable String query,
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "10") int size){
+        return videoService.filterVideos(query, page, size);
+}
+
+//    ---------------------------------------------------------------------------------------------
+
 }
