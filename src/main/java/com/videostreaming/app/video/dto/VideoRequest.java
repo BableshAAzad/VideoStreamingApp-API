@@ -20,7 +20,7 @@ public class VideoRequest {
     @NotNull(message = "Video description can not be null")
     private  String description;
 
-    @NotNull(message = "category description can not be null")
+    @NotNull(message = "category can not be null")
     private VideoCategory category;
 
     @ValidVideoFile
