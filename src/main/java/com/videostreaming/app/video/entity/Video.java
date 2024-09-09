@@ -1,8 +1,10 @@
 package com.videostreaming.app.video.entity;
 
 import com.videostreaming.app.course.entity.Course;
-import com.videostreaming.app.enums.VideoCategory;
-import jakarta.persistence.*;
+import com.videostreaming.app.user.entity.User;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import lombok.*;
 
 @Entity
@@ -28,4 +30,9 @@ public class Video {
 
 //    @ManyToOne
 //    private Course course;
+
+    @ManyToOne
+    private User user;
+
+
 }
