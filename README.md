@@ -1,6 +1,7 @@
 
 ## 💻📽️ Video Streaming Web Application - API 📺📸 ##
 
+
 This project is a video streaming application, similar to YouTube or an e-learning platform. It implements the basic principles of video streaming, such as delivering data in chunks based on internet quality.
 for frontend documentation : [Video Streaming Web App - UI](https://github.com/BableshAAzad/Video_Streaming_App-UI)
 ---
