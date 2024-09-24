@@ -11,6 +11,7 @@ public class VideoMapper {
     public Video mapVideoRequestToVideo(VideoRequest videoRequest, Video video){
         video.setTitle(videoRequest.getTitle());
         video.setDescription(videoRequest.getDescription());
+        video.setCategory(videoRequest.getCategory());
         return video;
     }
 
@@ -19,6 +20,7 @@ public class VideoMapper {
                 .videoId(video.getVideoId())
                 .title(video.getTitle())
                 .description(video.getDescription())
+                .category(video.getCategory())
                 .contentType(video.getContentType())
                 .filePath(video.getFilePath())
                 .build();

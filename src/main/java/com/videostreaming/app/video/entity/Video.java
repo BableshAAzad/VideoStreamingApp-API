@@ -21,6 +21,9 @@ public class Video {
 
     private  String description;
 
+    @Enumerated(EnumType.STRING)
+    private VideoCategory category;
+
     private  String  contentType;
 
     private  String filePath;

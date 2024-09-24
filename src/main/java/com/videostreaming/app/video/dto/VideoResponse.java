@@ -1,5 +1,6 @@
 package com.videostreaming.app.video.dto;
 
+import com.videostreaming.app.enums.VideoCategory;
 import lombok.*;
 
 @AllArgsConstructor
@@ -16,6 +17,8 @@ public class VideoResponse {
     private  String description;
 
     private  String  contentType;
+
+    private VideoCategory category;
 
     private  String filePath;
 }
